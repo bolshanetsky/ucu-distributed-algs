@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -29,15 +30,7 @@ public class PrefixSum {
                 processingField = length / coreNumber;
             }
 
-            List<Future> list = new ArrayList<Future>();
-            for (int core = 0; core < coreNumber; core++) {
-                Summator sum = new Summator(level, core, processingField);
-                list.add(executor.submit(sum));
-            }
-
-            for (Future fut : list) {
-                fut.get();
-            }
+            runSumTasksParallel(executor, level, processingField, coreNumber, Summator.class);
         }
 
         int cumSum = outputArray[length - 1];
@@ -51,19 +44,26 @@ public class PrefixSum {
                 processingField = length / coreNumber;
             }
 
-            List<Future> list = new ArrayList<Future>();
-            for (int core = 0; core < coreNumber; core++) {
-                DownSummator dsum = new DownSummator(level, core, processingField);
-                list.add(executor.submit(dsum));
-            }
-
-            for (Future dsum : list) {
-                dsum.get();
-            }
+            runSumTasksParallel(executor, level, processingField, coreNumber, DownSummator.class);
         }
         outputArray[length] = cumSum;
 
         return outputArray;
+    }
+
+    @SneakyThrows
+    private static void runSumTasksParallel(ExecutorService executor, int level, int processingField, int coreNumber,
+                                            Class<? extends Summator> task) {
+        List<Future> list = new ArrayList<>();
+        for (int core = 0; core < coreNumber; core++) {
+            Callable sum = task.getConstructor(Integer.class, Integer.class, Integer.class).newInstance(level, core,
+                    processingField);
+            list.add(executor.submit(sum));
+        }
+
+        for (Future fut : list) {
+            fut.get();
+        }
     }
 
     public static void printArray(int[] array) {

@@ -2,20 +2,10 @@ package distributed_algs.homework_1.prefix_sum;
 
 import lombok.SneakyThrows;
 
-import java.util.concurrent.Callable;
+public class DownSummator extends Summator {
 
-public class DownSummator implements Callable<Void> {
-
-    private final int level;
-    private final int threadNumber;
-    private final int processingField;
-    private static int[] array;
-
-    public DownSummator(int level, int core, int processingField) {
-        this.level = level;
-        this.threadNumber = core;
-        this.processingField = processingField;
-        this.array = PrefixSum.outputArray;
+    public DownSummator(Integer level, Integer core, Integer processingField) {
+        super(level, core, processingField);
     }
 
     @SneakyThrows

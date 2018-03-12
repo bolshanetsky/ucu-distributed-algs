@@ -4,12 +4,12 @@ import java.util.concurrent.Callable;
 
 public class Summator implements Callable<Void> {
 
-    private final int level;
-    private final int threadNumber;
-    private final int processingField;
-    private static int[] array;
+    protected final int level;
+    protected final int threadNumber;
+    protected final int processingField;
+    protected static int[] array;
 
-    public Summator(int level, int core, int processingField) {
+    public Summator(Integer level, Integer core, Integer processingField) {
         this.level = level;
         this.threadNumber = core;
         this.processingField = processingField;
