@@ -43,7 +43,6 @@ public class IntegerMapReduce {
 
         // execute Reduce, each reducer reduces only numbers in certain range.
         int processingRange = (int) Math.ceil((double)numbersRange / coresNumber);
-        Math.floor(numbersRange);
         for (int core = 0; core < coresNumber; core++) {
             IntReducer map = new IntReducer(resultList, resultMap, core * processingRange, processingRange);
             list.add(executor.submit(map));

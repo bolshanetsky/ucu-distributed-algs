@@ -61,11 +61,12 @@ public class PrefixSum {
             list.add(executor.submit(sum));
         }
 
-        for (Future fut : list) {
-            fut.get();
+        for (Future future : list) {
+            future.get();
         }
     }
 
+    // Print array for debugging purposes.
     public static void printArray(int[] array) {
         StringBuilder strb = new StringBuilder();
         strb.append("[");
