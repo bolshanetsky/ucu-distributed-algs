@@ -1,7 +1,6 @@
 package distributed_algs.homework_3.MapReduce;
 
 import lombok.SneakyThrows;
-import sun.jvm.hotspot.utilities.AssertionFailure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,7 @@ public class IntegerMapReduce {
         // Verify calculations
         int sum = result.values().stream().mapToInt(Integer::intValue).sum();
         System.out.println("Control: Input size = " + integers.size() + " -> Output size = " + sum);
-        if (sum != integers.size()) throw new AssertionFailure();
+        if (sum != integers.size()) throw new RuntimeException();
     }
 
     private static int getRandomIntegerInRange(int min, int max) {

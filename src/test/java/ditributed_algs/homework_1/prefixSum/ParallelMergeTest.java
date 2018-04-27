@@ -4,9 +4,6 @@ import distributed_algs.homework_1.prefix_sum.PrefixSum;
 import distributed_algs.homework_2.merge_sort.ParallelMergeSort;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import sun.jvm.hotspot.utilities.AssertionFailure;
-
-import javax.naming.PartialResultException;
 
 public class ParallelMergeTest {
 

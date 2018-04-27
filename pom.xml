@@ -7,6 +7,12 @@
     <groupId>ucu-distributed-algs</groupId>
     <artifactId>ucu-distributed-algs</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <spark.version>2.2.0</spark.version>
+        <scala.version>2.11</scala.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -16,6 +22,53 @@
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <scalaVersion>${scala.version}</scalaVersion>
+                    <scalaCompatVersion>${scala.version}.8</scalaCompatVersion>
+                    <javacArgs>
+                        <javacArg>-source</javacArg>
+                        <javacArg>${java.version}</javacArg>
+                        <javacArg>-target</javacArg>
+                        <javacArg>${java.version}</javacArg>
+                    </javacArgs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <recompressZippedFiles>false</recompressZippedFiles>
+                    <archive>
+                        <manifest>
+                            <mainClass>homework_4.spark.CountTriangleApp</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -35,6 +88,21 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.version}</artifactId>
+            <version>${spark.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-mllib_${scala.version}</artifactId>
+            <version>${spark.version}</version>
         </dependency>
     </dependencies>
 
