@@ -1,6 +1,6 @@
 FROM ubuntu:14.04
 
-RUN apt-get update && apt-get -y install curl
+RUN apt-get update && apt-get -y install curl && apt-get -y install git && apt-get -y install maven
 
 # JAVA
 ARG JAVA_MAJOR_VERSION=8
@@ -24,8 +24,17 @@ RUN curl -s $SPARK_ARCHIVE | tar -xz -C /usr/local/
 ENV SPARK_HOME /usr/local/spark-2.1.0-bin-hadoop2.7
 ENV PATH $PATH:$SPARK_HOME/bin
 
-#COPY ha.conf $SPARK_HOME/conf
+# SCALA APP
+ARG APP_HOME=ucu-distributed-algs
+ARG APP_REPO=https://github.com/bolshanetsky/ucu-distributed-algs.git
+RUN mkdir /app
+#RUN ls
+WORKDIR /app
+RUN git clone  --progress --verbose $APP_REPO /app
+RUN cd /app
 
-EXPOSE 4040 6066 7077 8080
+# BUILD APP
+RUN mvn package
 
-WORKDIR $SPARK_HOME
+# RUN APP just for the DEMO purpose!
+RUN spark-submit --master local target/ucu-distributed-algs-1.0-SNAPSHOT-jar-with-dependencies.jar data/followers.txt
